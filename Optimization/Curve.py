@@ -12,13 +12,13 @@ class curve:
         self.fy_dot=fy_dot
         
         
-    def fx(t,self):
+    def fx(self,t):
         return self.fx(t)
-    def fy(t,self):
+    def fy(self,t):
         return self.fy(t)
-    def fx_dot(t,self):
+    def fx_dot(self,t):
         return self.fx_dot(t)
-    def fy_dot(t,self):
+    def fy_dot(self,t):
         return self.fy_dot(t)
     def pxy(self):
         return self.pxy
