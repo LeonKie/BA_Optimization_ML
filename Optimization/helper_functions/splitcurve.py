@@ -12,7 +12,7 @@ def interpol_equal(race_track_tuple,N) -> "Race Track":
 	either time or length of a Segment.
 
 	'''
-
+    print("equallity befor: ", check_equal(race_track_tuple))
 
     # Create Velocitys
     velocity_vectors=np.diff(race_track_tuple,axis=0)
@@ -49,10 +49,15 @@ def interpol_equal(race_track_tuple,N) -> "Race Track":
     race_track_out.append(np.array(race_track_tuple[-1]))
 
 
-
+    print("equallity after: ", check_equal(race_track_out))
     return race_track_out
 
-out=interpol_equal([[1,2],[2,4],[3,3],[2,5]],10)
+def check_equal(race_track_tuple) -> "Race Track":
+    distence_abs=np.diag(dis.squareform(dis.pdist(race_track_tuple)),1)
+    return np.std(distence_abs)
+
+
+out=interpol_equal([[1,2],[2,4],[3,3],[2,5]],100)
 X=([x[0] for x in out])
 Y=([y[1] for y in out])
 
