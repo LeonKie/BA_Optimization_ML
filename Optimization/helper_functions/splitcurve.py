@@ -12,6 +12,7 @@ def interpol_equal(race_track_tuple,N) -> "Race Track":
 	either time or length of a Segment.
 
 	'''
+    
     print("equallity befor: ", check_equal(race_track_tuple))
 
     # Create Velocitys
