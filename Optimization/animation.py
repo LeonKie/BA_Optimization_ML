@@ -286,3 +286,5 @@ class AnimDrawer():
 
         # traj_ref
         self.traj_imgs[1].set_data(self.history_target_x[0][:i], self.history_target_y[0][:i])
+
+
