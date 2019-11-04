@@ -1,7 +1,7 @@
 
-from BA_Optimization_ML.Optimization.helper_functions import splitcurve as sp
-from BA_Optimization_ML.Optimization.helper_functions import Polynomial as pl
-#from BA_Optimization_ML.Optimization.helper_functions import Curve
+import splitcurve as sp
+import Polynomial as pl
+import Curve
 
 import cv2
 import csv
@@ -105,7 +105,7 @@ def get_as_curve():
 
     #return curve(fx,fy,fx_dot,fy_dot)
 
-def get_as_csv(steps=100):
+def get_as_csv(steps=1000):
     global listy,listx,img,pic
     __createImg()
     coef=__getcoef([listx,listy])
@@ -122,14 +122,13 @@ def get_as_csv(steps=100):
     #----------------------------------
     #Space for phi the direction angle
     #----------------------------------
-    racetrack=[fx_digital,fy_digital]
-    print(racetrack)
+    racetrack=np.array([fx_digital,fy_digital])
+    racetrack=racetrack.T
     racetrack_equal_dis=sp.interpol_equal(racetrack,steps)
-    
-    #df = pd.DataFrame(data=racetrack_equal_dis,columns=['X', 'Y'])
+    df = pd.DataFrame(data=racetrack_equal_dis,columns=['X', 'Y'])
 
-    #print(df)
-
+    print(df)
+    df.to_csv('BA_Optimization_ML/Optimization/imput_tracks/racetrack_drawn.csv')
     return racetrack_equal_dis
 
 get_as_csv()

@@ -62,11 +62,11 @@ def check_equal(race_track_tuple) -> "Race Track":
     return np.std(distence_abs)
 
 
-out=interpol_equal([[1,2],[2,4],[3,3],[2,5]],100)
+#out=interpol_equal([[1,2],[2,4],[3,3],[2,5]],100)
 
-print(out)
-X=([x[0] for x in out])
-Y=([y[1] for y in out])
+#print(out)
+#X=([x[0] for x in out])
+#Y=([y[1] for y in out])
 
 #plt.plot(X,Y)
 
