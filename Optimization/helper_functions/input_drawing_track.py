@@ -98,11 +98,11 @@ def get_as_curve():
     print("\nCoefficient X:\n",coef[0].T,"\n--------\nCoefficient Y:\n",coef[1])
     fx=pl.Polynomial(list(coef[0]))
     fy=pl.Polynomial(list(coef[1]))
-    fx_dot=pl.Polynomial.dot(list(coef[0]))
-    fy_dot=pl.Polynomial.dot(list(coef[1]))
+    #fx_dot=pl.Polynomial.dot(list(coef[0]))
+    #fy_dot=pl.Polynomial.dot(list(coef[1]))
 
 
-    return curve(fx,fy,fx_dot,fy_dot)
+    #return curve(fx,fy,fx_dot,fy_dot)
 
 def get_as_csv(steps=100):
     global listy,listx,img,pic
@@ -121,14 +121,16 @@ def get_as_csv(steps=100):
     #----------------------------------
     #Space for phi the direction angle
     #----------------------------------
-    racetrack=np.array([fx_digital,fy_digital])
-
+    racetrack=[fx_digital,fy_digital]
+    print(racetrack)
     racetrack_equal_dis=sp.interpol_equal(racetrack,steps)
     
     #df = pd.DataFrame(data=racetrack_equal_dis,columns=['X', 'Y'])
 
-    print(df)
+    #print(df)
 
     return racetrack_equal_dis
 
+
+get_as_csv()
 #cv2.destroyAllWindows

@@ -2,7 +2,7 @@ import numpy as np
 import scipy.spatial.distance as dis
 import matplotlib.pyplot as plt
 
-def interpol_equal(race_track_tuple: np.array,N) -> "Race Track":
+def interpol_equal(race_track_tuple,N) -> "Race Track":
     '''
 	Created by Leon Kiesgen
 	Date: 29.10.19
@@ -63,6 +63,8 @@ def check_equal(race_track_tuple) -> "Race Track":
 
 
 out=interpol_equal([[1,2],[2,4],[3,3],[2,5]],100)
+
+print(out)
 X=([x[0] for x in out])
 Y=([y[1] for y in out])
 
