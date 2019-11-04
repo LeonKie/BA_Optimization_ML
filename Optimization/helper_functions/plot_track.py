@@ -1,32 +1,42 @@
 
 import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
 
 
-plt.rcParams["mathtext.fontset"] = 'stix' # math fonts
+#plt.rcParams["mathtext.fontset"] = 'stix' # math fonts
 plt.rcParams['xtick.direction'] = 'in' # x axis in
 plt.rcParams['ytick.direction'] = 'in' # y axis in 
 plt.rcParams["font.size"] = 10
 plt.rcParams['axes.linewidth'] = 1.0 # axis line width
 plt.rcParams['axes.grid'] = True # make grid
 
+def plot_racetrack(racetrack: np.ndarray, ax=None, **kwargs):
+    ax = ax or plt.gca()
+ 
+    ax.plot(racetrack[0][0],racetrack[0][1],"g*",markersize=10)    
+    ax.plot(racetrack[-1][0],racetrack[-1][1],"ro",markersize=10)
+    ax.plot(racetrack[:,0],racetrack[:,1],"-",markersize=3)
+    ax.axis('equal')
+    plot=ax.legend(["Start","End","Curve"])
+    
 
-def draw_courve(curve=None,showPlot=True):
-    if (curve is None):
-        createImg()
-        coef=getcoef([listx,listy],20)
-        print("\nCoefficient X:\n",coef[0].T,"\n--------\nCoefficient Y:\n",coef[1])
-        c=set_Curve(list(coef[0]),list(coef[1]))
-        if showPlot:
-            plotcurve(c)
-    else:
-        if showPlot:
-            c=curve
-            plotcurve(c)
-    return c
+    return plot
 
-def plotcurve(curve):
-    global steps;
-    time=np.linspace(0,1,steps);
+def plot_racetrack_form_csv(name,ax=None, **kwargs):
+    path='BA_Optimization_ML/Optimization/imput_tracks/'
+    try:
+        df=pd.read_csv(path+name)
+    except:
+        IOError("Wrong Filename")
+
+    racetrack=df.to_numpy()
+    return plot_racetrack(racetrack,ax, **kwargs)
+
+
+def plot_curve(curve):
+    steps = 100 #needs to change
+    time=np.linspace(0,1,steps)
     plt.clf
     pxy=curve.createList()
     

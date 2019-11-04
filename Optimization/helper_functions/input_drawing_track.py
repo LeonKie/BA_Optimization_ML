@@ -1,7 +1,7 @@
 
-import splitcurve as sp
-import Polynomial as pl
-import Curve
+from BA_Optimization_ML.Optimization.helper_functions import splitcurve as sp
+from BA_Optimization_ML.Optimization.helper_functions import Polynomial as pl
+from BA_Optimization_ML.Optimization.helper_functions import Curve
 
 import cv2
 import csv
@@ -15,6 +15,17 @@ from sklearn.linear_model import Ridge
 import math
 import os
 import pandas
+
+
+#------------------------------
+#Initial Values
+polynoialDegree=10  #for the regression Problem so approximate a analytic curve
+steps_for_equal_distent=100 
+save_csv=0 #0 = False & 1 = True
+#------------------------------
+
+
+
 
 
 
@@ -59,7 +70,6 @@ def __createImg():
     img = np.zeros((512,512,3), np.uint8)
     pic=cv2.namedWindow('image')
     cv2.setMouseCallback('image',__draw_circle)
-    tempdrawing=drawing
     start=True
     while(start or drawing):
         cv2.imshow('image',img)
@@ -77,7 +87,7 @@ def __prepCoor(pos):
     arrayPos=arrayPos-arrayPos[0]
     return arrayPos.reshape(-1,1)
 
-def __getcoef(lis,deg=4):
+def __getcoef(lis,deg=polynoialDegree):
     sol=[]
     axes=["x","y"]
     for count,lis in enumerate(lis):
@@ -105,7 +115,7 @@ def get_as_curve():
 
     #return curve(fx,fy,fx_dot,fy_dot)
 
-def get_as_csv(steps=1000):
+def get_as_csv(steps=steps_for_equal_distent,save=save_csv,name='racetrack_data'):
     global listy,listx,img,pic
     __createImg()
     coef=__getcoef([listx,listy])
@@ -122,14 +132,19 @@ def get_as_csv(steps=1000):
     #----------------------------------
     #Space for phi the direction angle
     #----------------------------------
-    racetrack=np.array([fx_digital,fy_digital])
+    racetrack=np.vstack((np.array(fx_digital),np.array(fy_digital)))
     racetrack=racetrack.T
+    #fig,axs=plt.subplots(1,2)
+    #axs[0].plot(racetrack[:,0],racetrack[:,1])
     racetrack_equal_dis=sp.interpol_equal(racetrack,steps)
+    #axs[1].plot(racetrack_equal_dis[:,0],racetrack_equal_dis[:,1])
     df = pd.DataFrame(data=racetrack_equal_dis,columns=['X', 'Y'])
 
-    print(df)
-    df.to_csv('BA_Optimization_ML/Optimization/imput_tracks/racetrack_drawn.csv')
+    if save:
+        filename=name
+
+        df.to_csv('BA_Optimization_ML/Optimization/imput_tracks/'+filename+'.csv')
     return racetrack_equal_dis
 
-get_as_csv()
+#get_as_csv()
 #cv2.destroyAllWindows
