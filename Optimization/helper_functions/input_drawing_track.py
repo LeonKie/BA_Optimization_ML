@@ -1,6 +1,7 @@
+
 from BA_Optimization_ML.Optimization.helper_functions import splitcurve as sp
 from BA_Optimization_ML.Optimization.helper_functions import Polynomial as pl
-from BA_Optimization_ML.Optimization.helper_functions import Curve
+#from BA_Optimization_ML.Optimization.helper_functions import Curve
 
 import cv2
 import csv
@@ -130,7 +131,6 @@ def get_as_csv(steps=100):
     #print(df)
 
     return racetrack_equal_dis
-
 
 get_as_csv()
 #cv2.destroyAllWindows
