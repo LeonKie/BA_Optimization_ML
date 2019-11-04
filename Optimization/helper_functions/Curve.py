@@ -2,7 +2,7 @@ import numpy as np
 import BA_Optimization_ML.Optimization
 
 
-class curve: 
+class curve:
     global step
     def __init__ (self,fx,fy,fx_dot=0,fy_dot=0):
         self.fx

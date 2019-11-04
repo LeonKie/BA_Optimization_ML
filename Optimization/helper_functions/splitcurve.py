@@ -2,7 +2,7 @@ import numpy as np
 import scipy.spatial.distance as dis
 import matplotlib.pyplot as plt
 
-def interpol_equal(race_track_tuple,N) -> "Race Track":
+def interpol_equal(race_track_tuple: np.array,N) -> "Race Track":
     '''
 	Created by Leon Kiesgen
 	Date: 29.10.19
@@ -10,6 +10,9 @@ def interpol_equal(race_track_tuple,N) -> "Race Track":
 	This function interpolates a already existing Curve, so that all the points in the Trajectory
 	are equally spaced. This is necessary in the Optimization problem to eliminate one parameter
 	either time or length of a Segment.
+
+
+    race_trace 
 
 	'''
     
@@ -51,7 +54,8 @@ def interpol_equal(race_track_tuple,N) -> "Race Track":
 
 
     print("equallity after: ", check_equal(race_track_out))
-    return race_track_out
+    
+    return np.array(race_track_out)
 
 def check_equal(race_track_tuple) -> "Race Track":
     distence_abs=np.diag(dis.squareform(dis.pdist(race_track_tuple)),1)
@@ -62,7 +66,7 @@ out=interpol_equal([[1,2],[2,4],[3,3],[2,5]],100)
 X=([x[0] for x in out])
 Y=([y[1] for y in out])
 
-plt.plot(X,Y)
+#plt.plot(X,Y)
 
 
 if __name__ == "__main__":

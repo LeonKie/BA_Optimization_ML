@@ -19,3 +19,11 @@ class Polynomial:
             #print(index,coeff)
             res = res + coeff * x** index
         return res 
+
+
+    def dot(self,x):
+        res=0
+        for index, coeff in enumerate(self.coefficients):
+                if index > 0 :
+                    res = res + (index)*coeff * x** (index-1)
+        return res
