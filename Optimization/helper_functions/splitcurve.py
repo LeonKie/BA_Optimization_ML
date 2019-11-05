@@ -13,7 +13,9 @@ def interpol_equal(race_track_tuple,N) -> "Race Track":
 	either time or length of a Segment.
 
 
-    race_trace 
+    The angel of a Trajectorie is the definde as angle between the positv y-Axis and the tangent verctor
+    e.g. the vector 0+1j has the angle 0 deg
+    and  the vector 1+0j hat the angle -90deg
 
 	'''
     
@@ -39,8 +41,11 @@ def interpol_equal(race_track_tuple,N) -> "Race Track":
 		#decides in in between with old point the new points
     bins=np.digitize(seg_lenght_array,seg_length_array_real)
     bins=bins[:-1]
-    race_track_out=[np.array(race_track_tuple[0])]
-    
+    race_track_out=np.zeros([N+1,2])
+    race_track_out[0,:]=race_track_tuple[0]
+    #print("\n ---------- \n", race_track_out)
+
+
     #For each equal distant point create a new point on the  interpolated path between the corresponding points
     
     for j,binn in enumerate(bins):
@@ -48,21 +53,24 @@ def interpol_equal(race_track_tuple,N) -> "Race Track":
         # rel_distence is the Procentage value of the a Line between point A and B
         rel_distence=(seg_lenght_array[j]-seg_length_array_real[binn-1])/distence_abs[binn-1]
         newpoint=race_track_tuple[binn-1]+velocity_vectors[binn-1]*rel_distence
-        
-        race_track_out.append(newpoint)
+        print("J: " , j , "NewP: ", newpoint)
+        race_track_out[j+1,:]=newpoint
 
-    race_track_out.append(np.array(race_track_tuple[-1]))
+    race_track_out[-1,:]=race_track_tuple[-1]
+
+    print("\n ---------- \n", race_track_out)
 
 
     print("equallity after: ", check_equal(race_track_out))
-    #phi=getangle(race_track_out)
-    #phi=np.append(phi,phi[-1])
-    #print("Phi: ",phi)
+    phi=getangle(race_track_out)
+    #phi=np.array([np.append(phi,phi[-1])])
+    phi=np.reshape(phi,[N+1,1])
+    print("Phi: ",phi, "SIZE:" , (phi.shape))
     #print("Race:", race_track_out)
     #race_track_out=np.hstack(np.array(race_track_out),phi)
     #print(race_track_out)
     
-    return np.array(race_track_out)
+    return np.concatenate((race_track_out,phi),axis=1)
 
 def getangle(velocity_vectors):
     phi=np.zeros(np.size(velocity_vectors,0))
@@ -81,7 +89,7 @@ def check_equal(race_track_tuple) -> "Race Track":
 
 out=interpol_equal([[1,2],[2,4],[3,3],[2,5]],100)
 
-#print(out)
+print(out)
 #X=([x[0] for x in out])
 #Y=([y[1] for y in out])
 
