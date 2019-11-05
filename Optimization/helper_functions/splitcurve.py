@@ -1,6 +1,7 @@
 import numpy as np
 import scipy.spatial.distance as dis
 import matplotlib.pyplot as plt
+import math 
 
 def interpol_equal(race_track_tuple,N) -> "Race Track":
     '''
@@ -54,15 +55,31 @@ def interpol_equal(race_track_tuple,N) -> "Race Track":
 
 
     print("equallity after: ", check_equal(race_track_out))
+    #phi=getangle(race_track_out)
+    #phi=np.append(phi,phi[-1])
+    #print("Phi: ",phi)
+    #print("Race:", race_track_out)
+    #race_track_out=np.hstack(np.array(race_track_out),phi)
+    #print(race_track_out)
     
     return np.array(race_track_out)
+
+def getangle(velocity_vectors):
+    phi=np.zeros(np.size(velocity_vectors,0))
+    for i,v in enumerate(velocity_vectors):
+        phi[i]=(np.angle(v[0]+v[1]*1j)-math.pi/2)
+    return phi
 
 def check_equal(race_track_tuple) -> "Race Track":
     distence_abs=np.diag(dis.squareform(dis.pdist(race_track_tuple)),1)
     return np.std(distence_abs)
 
 
-#out=interpol_equal([[1,2],[2,4],[3,3],[2,5]],100)
+#velocity_vectors=np.diff([[1,2],[2,4],[3,3],[2,5]],axis=0)
+#print(velocity_vectors)
+#print (getangle(velocity_vectors))
+
+out=interpol_equal([[1,2],[2,4],[3,3],[2,5]],100)
 
 #print(out)
 #X=([x[0] for x in out])

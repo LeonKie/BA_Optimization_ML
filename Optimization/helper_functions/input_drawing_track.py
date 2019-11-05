@@ -115,6 +115,11 @@ def get_as_curve():
 
     #return curve(fx,fy,fx_dot,fy_dot)
 
+def add_angel(racetrack_without_phi):
+    pass
+
+
+
 def get_as_csv(steps=steps_for_equal_distent,save=save_csv,name='racetrack_data'):
     global listy,listx,img,pic
     __createImg()
