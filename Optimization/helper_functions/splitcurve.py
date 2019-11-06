@@ -42,40 +42,39 @@ def interpol_equal(race_track_tuple,N) -> "Race Track":
     bins=np.digitize(seg_lenght_array,seg_length_array_real)
     bins=bins[:-1]
     race_track_out=np.zeros([N+1,2])
+
+    #Create startingpoint
     race_track_out[0,:]=race_track_tuple[0]
-    #print("\n ---------- \n", race_track_out)
 
 
     #For each equal distant point create a new point on the  interpolated path between the corresponding points
-    
     for j,binn in enumerate(bins):
 
         # rel_distence is the Procentage value of the a Line between point A and B
         rel_distence=(seg_lenght_array[j]-seg_length_array_real[binn-1])/distence_abs[binn-1]
         newpoint=race_track_tuple[binn-1]+velocity_vectors[binn-1]*rel_distence
-        print("J: " , j , "NewP: ", newpoint)
         race_track_out[j+1,:]=newpoint
 
     race_track_out[-1,:]=race_track_tuple[-1]
 
-    print("\n ---------- \n", race_track_out)
-
-
     print("equallity after: ", check_equal(race_track_out))
-    phi=getangle(race_track_out)
-    #phi=np.array([np.append(phi,phi[-1])])
+
+
+    #Create phi the direction vector
+    velocity_vectors=np.diff(race_track_out,axis=0)
+    phi=getangle(velocity_vectors)
     phi=np.reshape(phi,[N+1,1])
-    print("Phi: ",phi, "SIZE:" , (phi.shape))
-    #print("Race:", race_track_out)
-    #race_track_out=np.hstack(np.array(race_track_out),phi)
-    #print(race_track_out)
-    
+  
+
     return np.concatenate((race_track_out,phi),axis=1)
 
 def getangle(velocity_vectors):
-    phi=np.zeros(np.size(velocity_vectors,0))
+    N=np.size(velocity_vectors,0)
+    phi=np.zeros(N+1)
     for i,v in enumerate(velocity_vectors):
         phi[i]=(np.angle(v[0]+v[1]*1j)-math.pi/2)
+
+    phi[N]=phi[N-1]
     return phi
 
 def check_equal(race_track_tuple) -> "Race Track":
@@ -83,17 +82,8 @@ def check_equal(race_track_tuple) -> "Race Track":
     return np.std(distence_abs)
 
 
-#velocity_vectors=np.diff([[1,2],[2,4],[3,3],[2,5]],axis=0)
-#print(velocity_vectors)
-#print (getangle(velocity_vectors))
 
-out=interpol_equal([[1,2],[2,4],[3,3],[2,5]],100)
-
-print(out)
-#X=([x[0] for x in out])
-#Y=([y[1] for y in out])
-
-#plt.plot(X,Y)
+#out=interpol_equal(np.array([[1,2],[2,4],[3,3],[2,5]]),100)
 
 
 if __name__ == "__main__":
