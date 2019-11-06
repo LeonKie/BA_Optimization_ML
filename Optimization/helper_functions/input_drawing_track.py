@@ -102,6 +102,8 @@ def __getcoef(lis,deg=polynoialDegree):
     return sol
 
 
+#-------------------------------------------------
+#TO BE DONE !!!!
 def get_as_curve():
     global listy,listx,img,pic
     __createImg()
@@ -114,12 +116,19 @@ def get_as_curve():
 
 
     #return curve(fx,fy,fx_dot,fy_dot)
+#-------------------------------------------------
 
+
+#TO BE DONE
+#-------------------------------------------------
 def add_angel(racetrack_without_phi):
     pass
+#-------------------------------------------------
 
-
-
+# MAIN FUNCTION OF THE FILE
+# CREATE A TRACK FROM DRAWING +
+# EXPORTING AS CSV 
+#-------------------------------------------------
 def get_as_csv(steps=steps_for_equal_distent,save=save_csv,name='racetrack_data'):
     global listy,listx,img,pic
     __createImg()
