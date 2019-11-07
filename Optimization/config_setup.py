@@ -4,7 +4,7 @@ import os
 
 
 config = configparser.ConfigParser()
-config['Model_Parameter'] = {'MASS': '10000',   # Vehicle mass in kg
+config['Model_Parameter'] = {'Mass': '10000',   # Vehicle mass in kg
                      'length_front': '2.1',     # Distance from front axle to COG in m
                      'length_rear': '1.8',      # Distance from rear axle to COG in m
                      'Pmax' : '200',            # Maximum Power accelleration in kW
