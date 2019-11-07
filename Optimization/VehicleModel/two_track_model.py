@@ -54,6 +54,8 @@ def get_dot_states_two_track_model(x,p,u):
     Calculate the update States
     '''
 
+    
+    #Controls
     #--------------------------------------------------------------------------
     # u[0] = s_FL(t)     Slip of Front Left tire [ratio].
     # u[1] = s_FR(t)     Slip of Front Right tire [ratio].
@@ -95,6 +97,10 @@ def get_dot_states_two_track_model(x,p,u):
     dx[5]=v_global[1]
     return dx
 
+
+#--------------------------------------------------------------------------
+    #How to use
+#--------------------------------------------------------------------------
 '''
 c=getConfig()
 
