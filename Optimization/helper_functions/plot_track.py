@@ -2,9 +2,10 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
+import math
 
 
-#plt.rcParams["mathtext.fontset"] = 'stix' # math fonts
+plt.rcParams["mathtext.fontset"] = 'stix' # math fonts
 plt.rcParams['xtick.direction'] = 'in' # x axis in
 plt.rcParams['ytick.direction'] = 'in' # y axis in 
 plt.rcParams["font.size"] = 10
@@ -32,6 +33,21 @@ def plot_racetrack_form_csv(name,ax=None, **kwargs):
 
     racetrack=df.to_numpy()
     return plot_racetrack(racetrack,ax, **kwargs)
+
+def plot_velocity(racetrack: np.ndarray, ax=None, **kwargs):
+    ax = ax or plt.gca()
+ 
+
+    u_Vel=np.cos(racetrack[:,2]+math.pi/2)
+    v_Vel=np.sin(racetrack[:,2]+math.pi/2)
+    ax.plot(racetrack[0][0],racetrack[0][1],"g*",markersize=10)    
+    ax.plot(racetrack[-1][0],racetrack[-1][1],"ro",markersize=10)
+    steps=1
+    ax.quiver(list(racetrack[:,0][::steps]),list(racetrack[:,1][::steps]),list(u_Vel[::steps]),list(v_Vel[::steps]),color='b',scale=100)
+    plot=ax.axis('equal')
+    
+
+    return plot
 
 
 def plot_curve(curve):

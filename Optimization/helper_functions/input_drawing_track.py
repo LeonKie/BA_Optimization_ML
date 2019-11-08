@@ -102,6 +102,8 @@ def __getcoef(lis,deg=polynoialDegree):
     return sol
 
 
+#-------------------------------------------------
+#TO BE DONE !!!!
 def get_as_curve():
     global listy,listx,img,pic
     __createImg()
@@ -114,12 +116,19 @@ def get_as_curve():
 
 
     #return curve(fx,fy,fx_dot,fy_dot)
+#-------------------------------------------------
 
+
+#TO BE DONE
+#-------------------------------------------------
 def add_angel(racetrack_without_phi):
     pass
+#-------------------------------------------------
 
-
-
+# MAIN FUNCTION OF THE FILE
+# CREATE A TRACK FROM DRAWING +
+# EXPORTING AS CSV 
+#-------------------------------------------------
 def get_as_csv(steps=steps_for_equal_distent,save=save_csv,name='racetrack_data'):
     global listy,listx,img,pic
     __createImg()
@@ -143,11 +152,10 @@ def get_as_csv(steps=steps_for_equal_distent,save=save_csv,name='racetrack_data'
     #axs[0].plot(racetrack[:,0],racetrack[:,1])
     racetrack_equal_dis=sp.interpol_equal(racetrack,steps)
     #axs[1].plot(racetrack_equal_dis[:,0],racetrack_equal_dis[:,1])
-    df = pd.DataFrame(data=racetrack_equal_dis,columns=['X', 'Y'])
-
+    
     if save:
         filename=name
-
+        df = pd.DataFrame(data=racetrack_equal_dis,columns=['X', 'Y','phi'])
         df.to_csv('BA_Optimization_ML/Optimization/imput_tracks/'+filename+'.csv')
     return racetrack_equal_dis
 
