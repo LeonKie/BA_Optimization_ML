@@ -13,7 +13,7 @@ from getconfig import getConfig
 def get_next_states_two_track_model(x,dx,t):
     
     erg= np.add(x,dx*t)
-    #print("X: \n", x , "\ndx \n", dx,"\n ERG: \t ", erg)
+    #print("X: \n", x , "\ndx \n", dx,"\n ERG: \t ", erg,"\n")
     return erg
 
 
