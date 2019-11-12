@@ -27,25 +27,24 @@ def plot_racetrack(racetrack: np.ndarray, ax=None, **kwargs):
 def plot_racetrack_form_csv(name,ax=None, **kwargs):
     path='BA_Optimization_ML/Optimization/imput_tracks/'
     try:
-        df=pd.read_csv(path+name)
+        df_track=pd.read_csv(path+name)
     except:
-        IOError("Wrong Filename")
+        print("Wrong Filename")
 
-    racetrack=df.to_numpy()
-    return plot_racetrack(racetrack,ax, **kwargs)
 
-def plot_velocity(racetrack: np.ndarray, ax=None, **kwargs):
+    racetrack=df_track.to_numpy()
+    return plot_racetrack(racetrack[:,1:],ax, **kwargs)
+
+def plot_velocity(racetrack: np.ndarray, ax=None, stepssize=5):
     ax = ax or plt.gca()
- 
-
     u_Vel=np.cos(racetrack[:,2]+math.pi/2)
     v_Vel=np.sin(racetrack[:,2]+math.pi/2)
     ax.plot(racetrack[0][0],racetrack[0][1],"g*",markersize=10)    
     ax.plot(racetrack[-1][0],racetrack[-1][1],"ro",markersize=10)
-    steps=1
-    ax.quiver(list(racetrack[:,0][::steps]),list(racetrack[:,1][::steps]),list(u_Vel[::steps]),list(v_Vel[::steps]),color='b',scale=100)
-    plot=ax.axis('equal')
-    
+    steps=stepssize
+    ax.quiver(list(racetrack[:,0][::steps]),list(racetrack[:,1][::steps]),list(u_Vel[::steps]),list(v_Vel[::steps]),color='b',scale=100/steps)
+    ax.axis('equal')
+    plot=ax.legend(["Start","End","Curve"])
 
     return plot
 
