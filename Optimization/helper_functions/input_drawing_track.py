@@ -109,8 +109,8 @@ def get_as_curve():
     __createImg()
     coef=__getcoef([listx,listy])
     print("\nCoefficient X:\n",coef[0].T,"\n--------\nCoefficient Y:\n",coef[1])
-    fx=pl.Polynomial(list(coef[0]))
-    fy=pl.Polynomial(list(coef[1]))
+    #fx=pl.Polynomial(list(coef[0]))
+    #fy=pl.Polynomial(list(coef[1]))
     #fx_dot=pl.Polynomial.dot(list(coef[0]))
     #fy_dot=pl.Polynomial.dot(list(coef[1]))
 
