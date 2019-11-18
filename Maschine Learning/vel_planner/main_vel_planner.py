@@ -1,6 +1,7 @@
 from sym_qp import SymQP  # TODO: must NOT depend on chosen objective function
 import numpy as np
 import json
+import JsonExample 
 
 sqp_stgs = {'m': 100,  # number of discretization points
              'b_online_mode': 0,  # 0 or 1 for running on car or not
@@ -8,16 +9,23 @@ sqp_stgs = {'m': 100,  # number of discretization points
              'ev_vel_w': 10  # weight on every slack variable
              }
 
+ADDTOOTRAINING=False
+
 # SQP termination criterion
 err_ = 0.01 * sqp_stgs['m']
 
+
+
 vini_mps_ = 60
 x0_ = [vini_mps_]  # Initial velocity
-x0_.extend([70] * (sqp_stgs['m'] - 1))  # Velocity guess
+x0_.extend([60] * (sqp_stgs['m'] - 1))  # Velocity guess
 if sqp_stgs['obj_func'] == 'slacks':
     x0_.extend([0] * sqp_stgs['m'])  # slack variables on velocity
 kappa_ = [0.0] * sqp_stgs['m']
 delta_s_ = [2] * (sqp_stgs['m'] - 1)
+
+
+
 
 # Create SymQP-instance
 if sqp_stgs['obj_func'] == 'slacks':
@@ -60,12 +68,11 @@ while err > err_:
     x0_ = x0_.tolist()
 
 # --- Export Data 
+if ADDTOOTRAINING:
+    data_out={"V_op":list(v_op_), "Kappa": list(kappa_), "delta_s": list(delta_s_),"v_ini": vini_mps_}
 
-data_out={"V_po":v_op_, "Kappa": kappa_, "delta_s": delta_s_}
-
-with open('Traj_opt.json', 'w') as fp:
-    json.dump(data_out, fp)
-
+    TrainingExampleNR=JsonExample.saveData(data_out)
+    print(TrainingExampleNR, " Exporting Finished")
 
 # --- Visualize SQP-solution
 if not sqp_stgs['b_online_mode']:
