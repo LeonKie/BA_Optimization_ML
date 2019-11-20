@@ -437,6 +437,11 @@ class SymQP():
         ################################################################################################################
 
         P, q, A, l, u = self.get_osqp_mat(x0_, vini_mps_, kappa_, delta_s_)
+        
+        #index=np.where((u-l)>0)
+        #print("Index:", index, "  Value: " ,l[np.where((u-l)>0)] ,"-", u[np.where((u-l)>0)])
+
+
 
         # --- Px, Ax is data from sparse matrices
         self.sol_osqp.update(Px=P.data, q=q, Ax=A.data, l=l, u=u)

@@ -1,7 +1,11 @@
 from sym_qp import SymQP  # TODO: must NOT depend on chosen objective function
 import numpy as np
 import json
-import JsonExample 
+import sys
+sys.path.insert(1, 'BA_Optimization_ML/MaschineLearning/visualisation')
+import json_ImExport
+
+
 
 sqp_stgs = {'m': 100,  # number of discretization points
              'b_online_mode': 0,  # 0 or 1 for running on car or not
@@ -16,9 +20,9 @@ err_ = 0.01 * sqp_stgs['m']
 
 
 
-vini_mps_ = 60
+vini_mps_ = 45
 x0_ = [vini_mps_]  # Initial velocity
-x0_.extend([60] * (sqp_stgs['m'] - 1))  # Velocity guess
+x0_.extend([70] * (sqp_stgs['m'] - 1))  # Velocity guess
 if sqp_stgs['obj_func'] == 'slacks':
     x0_.extend([0] * sqp_stgs['m'])  # slack variables on velocity
 kappa_ = [0.0] * sqp_stgs['m']
@@ -46,14 +50,17 @@ kappa_Training_Data=np.loadtxt("Track_in_baches.csv",delimiter=",")
 
 print(kappa_Training_Data.shape[1])
 for i in range(kappa_Training_Data.shape[1]):
-    
+    print("#####SECTION:#####", i , "/",kappa_Training_Data.shape[1])
     
     kappa_=list(kappa_Training_Data[:,i])
-    print("This is Kappa:", kappa_)
+    #print("This is Kappa:", kappa_)
+    x0_ = [vini_mps_]  # Initial velocity
+    x0_.extend([70] * (sqp_stgs['m'] - 1))  # Velocity guess
 
     if i==0:
         symqp.osqp_init(x0_, vini_mps_, kappa_, delta_s_, sqp_stgs['b_online_mode'])
     else:
+        #print("V_INI: \t  ", vini_mps_)
         symqp.osqp_update_online(x0_, vini_mps_, kappa_, delta_s_)
     
 
@@ -63,33 +70,49 @@ for i in range(kappa_Training_Data.shape[1]):
         # --- Update parameters of QP
         symqp.osqp_update_online(x0_, vini_mps_, kappa_, delta_s_)
         sol = symqp.osqp_solve()
-
+        
         # --- Solution = QP-solution + initial operating-point
-        v_op_ = sol + np.array(x0_)
-        print('Optimized velocity profile: ', v_op_[0:sqp_stgs['m']])
-        if sqp_stgs['obj_func'] == 'slacks':
-            print('Slacks on velocity: ', v_op_[sqp_stgs['m']:2 * sqp_stgs['m']])
+        try:
+        
+            v_op_ = sol + np.array(x0_)
+            print('Optimized velocity profile: ', v_op_[0], v_op_[-1]) #sqp_stgs['m']])
+            if sqp_stgs['obj_func'] == 'slacks':
+                print('Slacks on velocity: ', v_op_[sqp_stgs['m']:2 * sqp_stgs['m']])
 
-        # --- Create new operating-point
-        x0_old_ = x0_
-        x0_fst_ = x0_[0]
-        x0_tmp_ = sol[1:np.size(x0_)] + np.array(x0_)[1:np.size(x0_)]
-        x0_ = np.append(x0_fst_, x0_tmp_)
+            # --- Create new operating-point
+            x0_old_ = x0_
+            x0_fst_ = x0_[0]
+            x0_tmp_ = sol[1:np.size(x0_)] + np.array(x0_)[1:np.size(x0_)]
+            x0_ = np.append(x0_fst_, x0_tmp_)
 
-        # --- Calculate SQP iteration error
-        # err = 0
-        err = np.matmul(v_op_ - x0_old_, v_op_ - x0_old_)
+            # --- Calculate SQP iteration error
+            # err = 0
+            err = np.matmul(v_op_ - x0_old_, v_op_ - x0_old_)
 
 
-        x0_ = x0_.tolist()
+            x0_ = x0_.tolist()
+        except:
+            
+            vini_mps_=vini_mps_-1
+            vini_mps_= 0 if (vini_mps_ < 0) else vini_mps_
+            vini_mps_= 70 if vini_mps_==0 else vini_mps_
+            x0_ = [vini_mps_]  # Initial velocity
+            x0_.extend([70] * (sqp_stgs['m'] - 1))  # Velocity guess
 
+            print("SECTION: ", i , "/",kappa_Training_Data.shape[1])
+            print("THE EXCEPTION WAS TRIGGERED")
+            print("VINI:\t ", vini_mps_)
+
+    
     # --- Export Data 
     if ADDTOOTRAINING:
         data_out={"V_op":list(v_op_), "Kappa": list(kappa_), "delta_s": list(delta_s_),"v_ini":vini_mps_ ,"v_max": 70,"Power": 215}
 
-        TrainingExampleNR=JsonExample.saveData(data_out,"Kappa_variation.json")
+        TrainingExampleNR=json_ImExport.saveData(data_out,"Kappa_variation_2.json")
         print(TrainingExampleNR, " Exporting Finished")
 
+
+    vini_mps_=np.max(v_op_)
     # --- Visualize SQP-solution
     #if not sqp_stgs['b_online_mode']:
     #    symqp.vis_sol(v_op_, kappa_, delta_s_)
