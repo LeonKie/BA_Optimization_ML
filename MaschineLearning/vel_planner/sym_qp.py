@@ -70,7 +70,7 @@ class SymQP():
                    'Pmax_kW_': 215,
                    'Fmax_kN_': 7.1,
                    'Fmin_kN_': - 20,
-                   'vmax_mps_': 70,
+                   'vmax_mps_': 130,
                    'axmax_mps2_': 10,
                    'aymax_mps2_': 10,
                    'dF_kN_pos_': 2,
@@ -412,11 +412,17 @@ class SymQP():
         if b_online_mode:
             sol_osqp_stgs = {'verbose': False,
                              'eps_abs': 1e-3,
-                             'eps_rel': 1e-3}
+                             'eps_rel': 1e-3,
+                             'max_iter':8000,
+                             'verbose':False
+                             }
         else:
             sol_osqp_stgs = {'verbose': True,
                              'eps_abs': 1e-5,
-                             'eps_rel': 1e-5}
+                             'eps_rel': 1e-5,
+                             'max_iter':8000,
+                             'verbose':False
+                             }
 
         sol_osqp.setup(P=P, q=q, A=A, l=l, u=u, **sol_osqp_stgs)
 
