@@ -61,8 +61,8 @@ def __Scoring(evalmodel,example,Score,vNorm):
 def eval(evalmodel,example,vNorm):
     __initGPU()
 
-    R2Score=__Scoring(evalmodel,example,"R2",vNorm)
-    print(" R2: " ,R2Score)
+    #R2Score=__Scoring(evalmodel,example,"R2",vNorm)
+    #print(" R2: " ,R2Score)
 
     MAEScore=__Scoring(evalmodel,example,"MAE",vNorm)
     print(" MAE: " ,MAEScore)

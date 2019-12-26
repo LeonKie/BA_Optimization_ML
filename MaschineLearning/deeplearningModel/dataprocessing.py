@@ -118,8 +118,7 @@ def prepareData(indata,feature_size: int=1,length=np.inf):
 
 
 
-'''
-Logdata_MB=LogDataImport.get_data("/Users/leonkiesgen/Documents/Python/mod_local_trajectory/logs/ltpl/2019_12_01/15_00_59_data.csv")
-data=prepareData([Logdata_MB])
-print(data[1])
-'''
+
+#Logdata_MB=LogDataImport.get_data("/Users/leonkiesgen/Documents/Python/mod_local_trajectory/logs/ltpl/2019_12_01/15_00_59_data.csv")
+#data=prepareData([Logdata_MB],5)
+#print(data[1])
