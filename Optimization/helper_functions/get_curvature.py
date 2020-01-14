@@ -9,7 +9,7 @@ def get_curvature(racetrack: np.ndarray):
 
     velocity_vectors=np.diff(racetrack,axis=0)
     phi=getangle(velocity_vectors)
-    #print(phi)
+
     phi=np.reshape(phi,[-1,1])
     track=zip(list(racetrack[:,0]),list(racetrack[:,1]),list(phi))
 
